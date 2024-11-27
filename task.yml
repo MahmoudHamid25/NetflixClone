@@ -1,0 +1,27 @@
+name: Task Template
+description: Use this template for defining tasks in the project.
+labels: task
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Task Overview
+        **Task**: [Short task description, e.g., Implement user authentication]
+        **Description**: [A detailed explanation of what needs to be done]
+        
+        ### Acceptance Criteria
+        - [ ] The feature works as described.
+        - [ ] Code is properly tested.
+        - [ ] Pull request is ready for review.
+        
+        ### Detailed Instructions
+        - Follow the tutorial to set up authentication: [Link to NestJS Authentication Tutorial](https://docs.nestjs.com/security/authentication)
+        - Use JWT for token-based authentication.
+        - Ensure the authentication service is implemented with proper guards and strategies.
+
+        ### Links to Resources:
+        - [NestJS Documentation](https://docs.nestjs.com)
+        - [JWT Authentication with NestJS](https://dev.to/dabit3/jwt-authentication-with-nestjs-4hj1)
+        
+        ### Related Issues
+        - #<Issue Number> (e.g., #3 for related bug)
