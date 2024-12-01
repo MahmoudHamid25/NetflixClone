@@ -2,24 +2,28 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   email: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   password: string;
 
-  @Column()
+  @Column({ type: 'integer' })
   login_attempts: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   account_status: string;
 
-  @Column()
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @Column()
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   modified_at: Date;
 }
