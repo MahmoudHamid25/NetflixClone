@@ -27,19 +27,19 @@ export class AuthService {
   }
 
   findAll() {
-    return `This action returns all auth`;
+    return this.usersService.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  findOne(id: string) {
+    return this.usersService.findOne(id);
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+  update(id: string, updateAuthDto: UpdateAuthDto) {
+    return this.usersService.update(id, updateAuthDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  remove(id: string) {
+    return this.usersService.remove(id);
   }
 
   async validateUser(email: string, password: string): Promise<User> {
