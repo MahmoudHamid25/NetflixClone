@@ -10,4 +10,10 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
   @MinLength(15)
   password: string;
+
+  @IsOptional()
+  login_attempts: number;
+  
+  @IsOptional()
+  account_status: string;
 }
