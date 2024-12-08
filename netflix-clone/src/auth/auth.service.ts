@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { User } from 'src/users/entities/user.entity';
+import { UsersService } from 'src/users/users.service';
+import { RegisterDto } from './dto/register.dto';
+import { AccessToken } from './types/access-token';
+import { AccessTokenPayload } from './types/access-token-payload';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { LoginDto } from './dto/login.dto';
+
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
-  }
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async login(email: string, pass: string ): Promise<AccessToken> {
+      const user = await this.validateUser(email, pass)
+      const {password, ...result} = user;
+      const payload = {sub: user.id, email: user.email};
+      const accessToken = this.jwtService.sign(payload, {expiresIn: '60m'});
+      return {
+        accessToken: accessToken}
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    // const payload = { email: user.email, id: user.id };
+    // console.log("login")
+    // return { access_token: this.jwtService.sign(payload) };
+  
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
+  // async register(user: RegisterDto): Promise<AccessToken> {
+  //   const existingUser = await this.usersService.findOneByEmail(user.email);
+  //   if (existingUser) {
+  //     throw new BadRequestException('email already exists');
+  //   }
+  //   const hashedPassword = await bcrypt.hash(user.password, 10);
+  //   const newUser: CreateUserDto = { ...user, password: hashedPassword };
+  //   const createdUser = await this.usersService.create(newUser)
+  //   // return this.login(createdUser);
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async validateUser(email: string, password: string): Promise<User> {
+    const user: User = await this.usersService.findOneByEmail(email);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    const isMatch: boolean = bcrypt.compareSync(password, user.password);
+    if (!isMatch) {
+      throw new BadRequestException('Password does not match');
+    }
+    return user;
   }
 }
