@@ -15,7 +15,7 @@ import { User } from './users/entities/user.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'root', // Use  actual password here
+      password: 'collert', // Use  actual password here
       database: 'netflix-clone', // Your database name
       entities: [User], // You will add your entities here
       synchronize: true, // Automatically synchronize schema (caution in production)
