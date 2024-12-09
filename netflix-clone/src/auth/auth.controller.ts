@@ -1,34 +1,79 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { SignInDto } from './dto/sign-in.dto';
+import { SignUpDto } from './dto/sign-up.dto';
+import { Public } from './public.decorator';
+import { GoogleOauthGuard } from './guards/google-oauth.guard';
+import { GithubOauthGuard } from './guards/github-oauth.guard';
+
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
-
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  constructor(private readonly authService: AuthService) {
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
+  @Public()
+  @Post('login')
+  login(@Body() signInDto: SignInDto, @Res({ passthrough: true }) res: any) {
+    return this.authService.signIn(signInDto.email, signInDto.password, res);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
+  @Public()
+  @Post('register')
+  register(@Body() signUpDto: SignUpDto) {
+    return this.authService.signUp(signUpDto.email, signUpDto.password);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
+  @Post('logout')
+  logOut(@Req() req: any) {
+    return this.authService.logout(req.user.id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Get('profile')
+  getProfile(@Req() req: any) {
+    return req.user;
+  }
+
+  @Public()
+  @Post('refresh')
+  async refreshToken(@Body('refreshToken') refreshToken: string) {
+    const newTokens = await this.authService.refreshTokens(refreshToken);
+    return newTokens;
+  }
+
+  @Public()
+  @UseGuards(GoogleOauthGuard)
+  @Get('google')
+  googleAuth() {
+  }
+
+  @Public()
+  @UseGuards(GoogleOauthGuard)
+  @Get('google/callback')
+  async googleAuthRedirect(@Req() req: any, @Res() res: any) {
+    const tokens = await this.authService.socialLogin(req.user, 'google');
+    res.json(tokens);
+  }
+
+  @Public()
+  @UseGuards(GithubOauthGuard)
+  @Get('github')
+  githubAuth() {
+  }
+
+  @Public()
+  @UseGuards(GithubOauthGuard)
+  @Get('github/callback')
+  async githubAuthRedirect(@Req() req: any, @Res() res: any) {
+    const tokens = await this.authService.socialLogin(req.user, 'github');
+    res.json(tokens);
   }
 }
