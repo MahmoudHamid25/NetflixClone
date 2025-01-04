@@ -10,8 +10,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) {
-  }
+  ) {}
 
   async signIn(
     email: string,
@@ -53,9 +52,7 @@ export class AuthService {
     accessToken: string;
     refreshToken: string;
   }> {
-    const existingUser = await this.usersService.findOneByEmail(
-      email,
-    );
+    const existingUser = await this.usersService.findOneByEmail(email);
     if (existingUser) {
       throw new Error('User with this email already exists');
     }

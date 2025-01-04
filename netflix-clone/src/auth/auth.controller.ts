@@ -14,11 +14,9 @@ import { Public } from './public.decorator';
 import { GoogleOauthGuard } from './guards/google-oauth.guard';
 import { GithubOauthGuard } from './guards/github-oauth.guard';
 
-
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {
-  }
+  constructor(private readonly authService: AuthService) {}
 
   @Public()
   @Post('login')
@@ -52,8 +50,7 @@ export class AuthController {
   @Public()
   @UseGuards(GoogleOauthGuard)
   @Get('google')
-  googleAuth() {
-  }
+  googleAuth() {}
 
   @Public()
   @UseGuards(GoogleOauthGuard)
@@ -66,8 +63,7 @@ export class AuthController {
   @Public()
   @UseGuards(GithubOauthGuard)
   @Get('github')
-  githubAuth() {
-  }
+  githubAuth() {}
 
   @Public()
   @UseGuards(GithubOauthGuard)
