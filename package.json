@@ -2,7 +2,7 @@
   "name": "your-project-name",
   "version": "1.0.0",
   "scripts": {
-    "lint": "eslint . --ext .ts,.tsx",
+    "lint": "cd netflix-clone && npm run lint",
     "commit": "git-cz"
   },
   "devDependencies": {
@@ -10,10 +10,7 @@
     "cz-conventional-changelog": "^3.2.0",
     "husky": "^8.0.1",
     "@commitlint/config-conventional": "^17.0.0",
-    "@commitlint/cli": "^17.0.0",
-    "eslint": "^8.20.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.5.0"
+    "@commitlint/cli": "^17.0.0"
   },
   "config": {
     "commitizen": {
