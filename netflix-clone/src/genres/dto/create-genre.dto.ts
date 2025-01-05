@@ -1,10 +1,9 @@
-import { PartialType } from '@nestjs/swagger';
-import { IsString,  } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateGenreDto {
-    @IsString()
-    name: string;
+  @IsString()
+  name: string;
 
-    @IsString()
-    description: string;
+  @IsString()
+  description: string;
 }

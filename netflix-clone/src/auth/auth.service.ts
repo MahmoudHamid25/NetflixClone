@@ -15,6 +15,7 @@ export class AuthService {
   async signIn(
     email: string,
     pass: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     res: any,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const user = await this.usersService.findOneByEmail(email);
@@ -85,6 +86,7 @@ export class AuthService {
       sub: user.id,
       email: user.email,
     };
+    console.log(provider);
     const accessToken = this.jwtService.sign(payload, { expiresIn: '60m' });
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
 
@@ -134,6 +136,7 @@ export class AuthService {
         accessToken: newAccessToken,
         refreshToken: newRefreshToken,
       };
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       throw new UnauthorizedException('Invalid refresh token');
     }
