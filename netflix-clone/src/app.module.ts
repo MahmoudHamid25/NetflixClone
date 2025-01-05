@@ -17,7 +17,6 @@ import { LanguagesModule } from './languages/languages.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      // eslint-disable-next-line prettier/prettier
       port: 5432,
       username: 'postgres',
       password: 'collert', // Use  actual password here
