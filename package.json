@@ -2,8 +2,14 @@
   "name": "your-project-name",
   "version": "1.0.0",
   "scripts": {
-    "lint": "cd netflix-clone && npm run lint",
-    "commit": "git-cz"
+    "lint": "cd apps/api && npm run lint",
+    "commit": "git-cz",
+    "dev": "concurrently \"npm:dev:api\" \"npm:dev:web\"",
+    "dev:api": "cd apps/api && npm run start:dev",
+    "dev:web": "cd apps/web && npm run dev"
+  },
+  "dependencies": {
+    "concurrently": "^9.0.1"
   },
   "devDependencies": {
     "commitizen": "^4.2.4",
