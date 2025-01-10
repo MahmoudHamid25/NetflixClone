@@ -29,7 +29,7 @@ export class AuthService {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...result } = user;
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, role: user.role };
     const accessToken = this.jwtService.sign(payload, { expiresIn: '3600s' });
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
     console.log('Normal login generated refreshToken:', refreshToken);
@@ -79,7 +79,7 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, role: user.role };
     const accessToken = this.jwtService.sign(payload, { expiresIn: '3600s' });
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
     console.log('Sign up generated refreshToken:', refreshToken);
@@ -108,7 +108,7 @@ export class AuthService {
     provider: string,
     res: any,
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    const payload = { sub: user.id, email: user.email };
+    const payload = { sub: user.id, email: user.email, role: user.role };
     const accessToken = this.jwtService.sign(payload, { expiresIn: '3600s' });
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
     console.log('Social login generated refreshToken:', refreshToken);

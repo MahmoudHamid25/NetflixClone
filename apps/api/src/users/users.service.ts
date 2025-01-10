@@ -10,8 +10,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
-  ) {
-  }
+  ) {}
 
   async findOrCreateUser(profile: any, provider: string): Promise<User> {
     const email = profile.emails?.[0]?.value;

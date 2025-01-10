@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { Role } from '../../roles/role.enum';
 
 export enum AccountStatus {
   ACTIVE = 'active',
@@ -105,4 +106,15 @@ export class User {
   })
   @Column({ type: 'varchar', nullable: true })
   password?: string;
+
+  @ApiProperty({
+    description: 'User role (optional). Cannot be set via POST /users route.',
+    enum: Role,
+  })
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.API,
+  })
+  role: Role;
 }
