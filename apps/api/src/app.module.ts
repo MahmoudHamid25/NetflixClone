@@ -10,6 +10,17 @@ import { Genre } from './genres/entities/genre.entity';
 import { Language } from './languages/entities/language.entity';
 import { GenresModule } from './genres/genres.module';
 import { LanguagesModule } from './languages/languages.module';
+import { ProfilesModule } from './profiles/profiles.module';
+import { Profile } from './profiles/entities/profile.entity';
+import { WatchHistoriesModule } from './watch-histories/watch-histories.module';
+import { WatchHistory } from './watch-histories/entities/watch-history.entity';
+import { PreferencesModule } from './preferences/preferences.module';
+import { Preference } from './preferences/entities/preference.entity';
+import { RecommendationsModule } from './recommendations/recommendations.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { Subscription } from './subscriptions/entities/subscription.entity';
+import { ContentsModule } from './contents/contents.module';
+import { Content } from './contents/entities/content.entity';
 
 @Module({
   imports: [
@@ -21,13 +32,28 @@ import { LanguagesModule } from './languages/languages.module';
       username: 'postgres',
       password: 'collert', // Use  actual password here
       database: 'netflix-clone', // Your database name
-      entities: [User, Genre, Language], // You will add your entities here
+      entities: [
+        User,
+        Genre,
+        Language,
+        Profile,
+        WatchHistory,
+        Preference,
+        Subscription,
+        Content,
+      ], // You will add your entities here
       synchronize: true, // Automatically synchronize schema (caution in production)
     }),
     UsersModule,
     AuthModule,
     GenresModule,
     LanguagesModule,
+    ProfilesModule,
+    WatchHistoriesModule,
+    PreferencesModule,
+    RecommendationsModule,
+    SubscriptionsModule,
+    ContentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
