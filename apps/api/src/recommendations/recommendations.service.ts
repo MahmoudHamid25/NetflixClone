@@ -4,6 +4,7 @@ import { UpdateRecommendationDto } from './dto/update-recommendation.dto';
 
 @Injectable()
 export class RecommendationsService {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   create(createRecommendationDto: CreateRecommendationDto) {
     return 'This action adds a new recommendation';
   }
@@ -15,7 +16,7 @@ export class RecommendationsService {
   findOne(id: number) {
     return `This action returns a #${id} recommendation`;
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(id: number, updateRecommendationDto: UpdateRecommendationDto) {
     return `This action updates a #${id} recommendation`;
   }

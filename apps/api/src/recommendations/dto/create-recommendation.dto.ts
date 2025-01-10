@@ -1,1 +1,1 @@
-// export class CreateRecommendationDto {}
+export class CreateRecommendationDto {}
