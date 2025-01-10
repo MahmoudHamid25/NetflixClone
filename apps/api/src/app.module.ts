@@ -14,6 +14,7 @@ import { RecommendationsModule } from './recommendations/recommendations.module'
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ContentsModule } from './contents/contents.module';
 import typeorm from './config/typeorm';
+import { AccessControlModule } from './roles/access-control.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import typeorm from './config/typeorm';
     RecommendationsModule,
     SubscriptionsModule,
     ContentsModule,
+    AccessControlModule,
   ],
   controllers: [AppController],
   providers: [AppService],
