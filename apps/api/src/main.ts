@@ -19,7 +19,10 @@ async function bootstrap() {
   );
 
   app.use(cookieParser());
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:3000', // Replace with your Next.js app URL
+    credentials: true, // Allow cookies and other credentials
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Netflix Clone API')
