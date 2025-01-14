@@ -37,4 +37,3 @@ export class CreateSeasonDto {
   @IsArray()
   episodes?: string[];
 }
-

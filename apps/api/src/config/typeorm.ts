@@ -22,6 +22,7 @@ const config = {
   url: process.env.DB_HOST,
   // entities: ["dist/**/*.entity{.ts,.js}"],
   migrations: ['dist/migrations/*{.ts,.js}'],
+
   entities: [
     User,
     Genre,

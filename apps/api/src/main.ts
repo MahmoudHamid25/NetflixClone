@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as express from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -18,6 +19,10 @@ async function bootstrap() {
     }),
   );
 
+  app.use(
+    express.json({ limit: '100mb' }),
+    express.urlencoded({ limit: '100mb', extended: true }),
+  );
   app.use(cookieParser());
   app.enableCors({
     origin: 'http://localhost:3000', // Replace with your Next.js app URL

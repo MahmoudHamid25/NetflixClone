@@ -67,7 +67,8 @@ export class CreateFilmDto {
 
   @ApiProperty({
     description: 'The URL of the video hosted on Cloudinary or similar service',
-    example: 'https://res.cloudinary.com/your-cloud-name/video/upload/v1616600992/your-video-path.mp4',
+    example:
+      'https://res.cloudinary.com/your-cloud-name/video/upload/v1616600992/your-video-path.mp4',
     nullable: true,
   })
   @IsOptional()

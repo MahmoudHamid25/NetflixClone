@@ -1,4 +1,11 @@
-import { IsString, IsDate, IsArray, IsNumber, IsObject, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsDate,
+  IsArray,
+  IsNumber,
+  IsObject,
+  IsOptional,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateContentDto {
@@ -18,7 +25,8 @@ export class CreateContentDto {
 
   @ApiProperty({
     description: 'A detailed description of the content',
-    example: 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.',
+    example:
+      'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.',
   })
   @IsString()
   description: string;
@@ -78,7 +86,8 @@ export class CreateContentDto {
   credits?: string;
 
   @ApiProperty({
-    description: 'Parent content ID, if this content is part of a series or franchise',
+    description:
+      'Parent content ID, if this content is part of a series or franchise',
     example: 'abcd-1234-xyz',
     nullable: true,
   })
@@ -106,7 +115,8 @@ export class CreateContentDto {
 
   @ApiProperty({
     description: 'The URL of the video hosted on Cloudinary or similar service',
-    example: 'https://res.cloudinary.com/your-cloud-name/video/upload/v1616600992/your-video-path.mp4',
+    example:
+      'https://res.cloudinary.com/your-cloud-name/video/upload/v1616600992/your-video-path.mp4',
     nullable: true,
   })
   @IsOptional()

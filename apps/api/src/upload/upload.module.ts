@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { MulterModule } from '@nestjs/platform-express'; // Required for handling file uploads
+import { MulterModule } from '@nestjs/platform-express';
 import { CloudinaryService } from './cloudinary.service';
 import { UploadController } from './upload.controller';
-import { ConfigModule } from '@nestjs/config'; // For loading environment variables
 
 @Module({
   imports: [
     MulterModule.register({
       dest: './uploads', // Temporary upload directory (local)
+      limits: { fileSize: 100 * 1024 * 1024 }, // 100 MB
     }),
   ],
   controllers: [UploadController],

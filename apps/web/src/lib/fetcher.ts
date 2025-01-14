@@ -7,7 +7,6 @@ import {getAuthTokens, handleTokenRefresh} from "@/lib/auth-tokens";
 export async function fetcher(url: string, options: any = {}) {
   const {accessToken, refreshToken} = await getAuthTokens();
   const headers = {
-    'Content-Type': 'application/json',
     Authorization: accessToken ? `Bearer ${accessToken.value}` : undefined,
     ...options,
   };

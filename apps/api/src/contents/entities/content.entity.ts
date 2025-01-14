@@ -27,7 +27,8 @@ export class Content {
   @Column({ type: 'text' })
   @ApiProperty({
     description: 'A description of the content',
-    example: 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.',
+    example:
+      'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.',
   })
   description: string;
 
@@ -79,7 +80,8 @@ export class Content {
 
   @Column({ type: 'varchar', nullable: true })
   @ApiProperty({
-    description: 'Parent content ID, if this content is part of a series or a movie franchise',
+    description:
+      'Parent content ID, if this content is part of a series or a movie franchise',
     example: 'abcd-1234-xyz',
     nullable: true,
   })
@@ -104,7 +106,8 @@ export class Content {
   @Column({ type: 'varchar', nullable: true })
   @ApiProperty({
     description: 'The URL of the video hosted on Cloudinary or similar service',
-    example: 'https://res.cloudinary.com/your-cloud-name/video/upload/v1616600992/your-video-path.mp4',
+    example:
+      'https://res.cloudinary.com/your-cloud-name/video/upload/v1616600992/your-video-path.mp4',
     nullable: true,
   })
   videoUrl: string;

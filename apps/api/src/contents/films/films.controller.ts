@@ -53,6 +53,7 @@ export class FilmsController {
   @ApiBody({ type: CreateFilmDto })
   @Post()
   async create(@Body() createFilmDto: CreateFilmDto) {
+    console.log(createFilmDto);
     return this.filmsService.create(createFilmDto);
   }
 
