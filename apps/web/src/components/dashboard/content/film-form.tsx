@@ -27,8 +27,12 @@ export default function FilmForm() {
     try {
       uploadFilm(values);
 
-    } catch (e) {
-      toast.error("Error:", e);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        toast.error(`Error: ${e.message}`);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     }
   }
 

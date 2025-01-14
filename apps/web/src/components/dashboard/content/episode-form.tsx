@@ -25,8 +25,12 @@ export default function EpisodeForm() {
     console.log(values);
     try {
 
-    } catch (e) {
-      toast.error("Error:", e);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        toast.error(`Error: ${e.message}`);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     }
   }
 

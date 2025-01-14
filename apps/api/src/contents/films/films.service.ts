@@ -13,9 +13,11 @@ export class FilmsService {
   ) {}
 
   async findAll(): Promise<Content[]> {
-    console.log("start query");
-    const films = await this.contentRepository.find({ where: { type: 'film' } });
-    console.log(films);  // Add a log to ensure films are being fetched
+    console.log('start query');
+    const films = await this.contentRepository.find({
+      where: { type: 'film' },
+    });
+    console.log(films); // Add a log to ensure films are being fetched
     return films;
   }
 
