@@ -20,6 +20,8 @@ import { FilmsModule } from './contents/films/films.module';
 import { EpisodesModule } from './contents/episodes/episodes.module';
 import { SeasonsModule } from './contents/seasons/seasons.module';
 import { SeriesModule } from './contents/series/series.module';
+import { UploadModule } from './upload/upload.module';
+import { CloudinaryConfigService } from './config/cloudinary.config';
 
 @Module({
   imports: [
@@ -75,8 +77,16 @@ import { SeriesModule } from './contents/series/series.module';
         ],
       },
     ]),
+    UploadModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CloudinaryConfigService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    private readonly cloudinaryConfigService: CloudinaryConfigService,
+  ) {
+    // Call the configure method to initialize Cloudinary
+    this.cloudinaryConfigService.configure();
+  }
+}

@@ -1,10 +1,4 @@
-import {
-  IsString,
-  IsOptional,
-  IsUUID,
-  IsDate,
-  IsArray,
-} from 'class-validator';
+import { IsString, IsOptional, IsUUID, IsDate, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateSeasonDto {
@@ -43,3 +37,4 @@ export class CreateSeasonDto {
   @IsArray()
   episodes?: string[];
 }
+
