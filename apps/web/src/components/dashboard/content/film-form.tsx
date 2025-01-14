@@ -13,10 +13,10 @@ import { toast } from 'sonner';
 import { uploadFilm } from '@/lib/actions';
 
 export default function FilmForm() {
-  const form = useForm({
+  const form = useForm<z.infer<typeof contentSchemas.film>>({
     resolver: zodResolver(contentSchemas.film),
     defaultValues: {
-      type: 'film',
+      type: 'film' as const,
       title: '',
       description: '',
     },

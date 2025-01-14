@@ -5,7 +5,6 @@ import { Sidebar } from "@/components/dashboard/layout/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { useStore } from "@/hooks/use-store";
 import { cn } from "@/lib/utils";
-import { Header } from '@/components/dashboard/layout/logo';
 
 export default function DashboardLayout({
                                            children

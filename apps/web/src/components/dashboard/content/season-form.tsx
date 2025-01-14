@@ -11,10 +11,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { z } from 'zod';
 
 export default function SeasonForm() {
-  const form = useForm({
+  const form = useForm<z.infer<typeof contentSchemas.season>>({
     resolver: zodResolver(contentSchemas.season),
     defaultValues: {
-      type: 'season',
+      type: 'season' as const,
       title: '',
       description: '',
     },

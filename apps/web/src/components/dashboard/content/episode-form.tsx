@@ -12,10 +12,10 @@ import { z } from 'zod';
 import { toast } from 'sonner';
 
 export default function EpisodeForm() {
-  const form = useForm({
+  const form = useForm<z.infer<typeof contentSchemas.episode>>({
     resolver: zodResolver(contentSchemas.episode),
     defaultValues: {
-      type: 'episode',
+      type: 'episode' as const,
       title: '',
       description: '',
     },
