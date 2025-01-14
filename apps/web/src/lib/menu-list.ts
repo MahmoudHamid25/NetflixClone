@@ -26,7 +26,6 @@ type Group = {
   groupLabel: string;
   menus: Menu[];
 };
-
 export function getMenuList(pathname: string): Group[] {
   return [
     {
@@ -48,10 +47,9 @@ export function getMenuList(pathname: string): Group[] {
           label: "Content",
           icon: SquarePen,
           submenus: [
-            { href: "/contents", label: "All Content" },
-            { href: "/contents/new", label: "New Content" },
-            { href: "/contents/genres", label: "Genres" },
-            { href: "/contents/tags", label: "Tags" }
+            { href: "/dashboard/contents", label: "All Content" },
+            { href: "/dashboard/contents/new", label: "New Content" },
+            { href: "/dashboard/contents/genres", label: "Genres" },
           ]
         }
       ]
@@ -60,12 +58,12 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "Users",
       menus: [
         {
-          href: "/users",
+          href: "/dashboard/users",
           label: "Users",
           icon: Users,
           submenus: [
-            { href: "/users", label: "All Users" },
-            { href: "/users/profiles", label: "Profiles" }
+            { href: "/dashboard/users", label: "All Users" },
+            { href: "/dashboard/users/profiles", label: "Profiles" }
           ]
         }
       ]
@@ -74,13 +72,13 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "Subscriptions",
       menus: [
         {
-          href: "/subscriptions",
+          href: "/dashboard/subscriptions",
           label: "Subscriptions",
           icon: DollarSign,
           submenus: [
-            { href: "/subscriptions/plans", label: "Plans" },
-            { href: "/subscriptions/active", label: "Active Subscribers" },
-            { href: "/subscriptions/analytics", label: "Analytics" }
+            { href: "/dashboard/subscriptions/plans", label: "Plans" },
+            { href: "/dashboard/subscriptions/active", label: "Active Subscribers" },
+            { href: "/dashboard/subscriptions/analytics", label: "Analytics" }
           ]
         }
       ]
@@ -89,7 +87,7 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "Languages",
       menus: [
         {
-          href: "/languages",
+          href: "/dashboard/languages",
           label: "Languages",
           icon: Globe,
           submenus: []
@@ -100,7 +98,7 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "Account",
       menus: [
         {
-          href: "/account",
+          href: "/dashboard/account",
           label: "Account",
           icon: User,
           submenus: []

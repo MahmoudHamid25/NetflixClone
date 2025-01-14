@@ -30,6 +30,11 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .addTag('Auth')
+    .addTag('Contents')
+    .addTag('Films')
+    .addTag('Episodes')
+    .addTag('Seasons')
+    .addTag('Series')
     // .addTag("Users")
     .build();
 

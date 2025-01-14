@@ -15,6 +15,11 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ContentsModule } from './contents/contents.module';
 import typeorm from './config/typeorm';
 import { AccessControlModule } from './roles/access-control.module';
+import { RouterModule } from '@nestjs/core';
+import { FilmsModule } from './contents/films/films.module';
+import { EpisodesModule } from './contents/episodes/episodes.module';
+import { SeasonsModule } from './contents/seasons/seasons.module';
+import { SeriesModule } from './contents/series/series.module';
 
 @Module({
   imports: [
@@ -44,8 +49,32 @@ import { AccessControlModule } from './roles/access-control.module';
     PreferencesModule,
     RecommendationsModule,
     SubscriptionsModule,
-    ContentsModule,
     AccessControlModule,
+    ContentsModule,
+    RouterModule.register([
+      {
+        path: 'contents',
+        module: ContentsModule,
+        children: [
+          {
+            path: 'films',
+            module: FilmsModule,
+          },
+          {
+            path: 'episodes',
+            module: EpisodesModule,
+          },
+          {
+            path: 'seasons',
+            module: SeasonsModule,
+          },
+          {
+            path: 'series',
+            module: SeriesModule,
+          },
+        ],
+      },
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService],

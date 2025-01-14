@@ -73,7 +73,7 @@ export function Menu({ isOpen }: MenuProps) {
                               className="w-full justify-start h-10 mb-1"
                               asChild
                             >
-                              <Link href={`/dashboard${href}`}>
+                              <Link href={href}>
                                 <span
                                   className={cn(isOpen === false ? "" : "mr-4")}
                                 >

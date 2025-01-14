@@ -11,29 +11,29 @@ export class CreateContentDto {
   description: string;
 
   @IsString()
-  preview_image: string;
+  preview_image?: string;
 
   @IsDate()
-  release_date: Date;
+  release_date?: Date;
 
   @IsObject()
-  subs: object;
+  subs?: object;
 
   @IsObject()
-  dubs: object;
+  dubs?: object;
 
   @IsArray()
-  available_qualities: string[];
+  available_qualities?: string[];
 
   @IsString()
-  credits: string;
+  credits?: string;
 
   @IsString()
-  parent_content_id: string;
+  parent_content_id?: string;
 
   @IsNumber()
-  season: number;
+  season?: number;
 
   @IsNumber()
-  episode_number: number;
+  episode_number?: number;
 }
