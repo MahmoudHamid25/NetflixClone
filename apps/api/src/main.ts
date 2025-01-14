@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as express from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -18,8 +19,15 @@ async function bootstrap() {
     }),
   );
 
+  app.use(
+    express.json({ limit: '100mb' }),
+    express.urlencoded({ limit: '100mb', extended: true }),
+  );
   app.use(cookieParser());
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:3000', // Replace with your Next.js app URL
+    credentials: true, // Allow cookies and other credentials
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Netflix Clone API')
@@ -27,6 +35,11 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .addTag('Auth')
+    .addTag('Contents')
+    .addTag('Films')
+    .addTag('Episodes')
+    .addTag('Seasons')
+    .addTag('Series')
     // .addTag("Users")
     .build();
 

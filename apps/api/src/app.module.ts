@@ -15,6 +15,13 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ContentsModule } from './contents/contents.module';
 import typeorm from './config/typeorm';
 import { AccessControlModule } from './roles/access-control.module';
+import { RouterModule } from '@nestjs/core';
+import { FilmsModule } from './contents/films/films.module';
+import { EpisodesModule } from './contents/episodes/episodes.module';
+import { SeasonsModule } from './contents/seasons/seasons.module';
+import { SeriesModule } from './contents/series/series.module';
+import { UploadModule } from './upload/upload.module';
+import { CloudinaryConfigService } from './config/cloudinary.config';
 
 @Module({
   imports: [
@@ -44,10 +51,42 @@ import { AccessControlModule } from './roles/access-control.module';
     PreferencesModule,
     RecommendationsModule,
     SubscriptionsModule,
-    ContentsModule,
     AccessControlModule,
+    ContentsModule,
+    RouterModule.register([
+      {
+        path: 'contents',
+        module: ContentsModule,
+        children: [
+          {
+            path: 'films',
+            module: FilmsModule,
+          },
+          {
+            path: 'episodes',
+            module: EpisodesModule,
+          },
+          {
+            path: 'seasons',
+            module: SeasonsModule,
+          },
+          {
+            path: 'series',
+            module: SeriesModule,
+          },
+        ],
+      },
+    ]),
+    UploadModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CloudinaryConfigService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    private readonly cloudinaryConfigService: CloudinaryConfigService,
+  ) {
+    // Call the configure method to initialize Cloudinary
+    this.cloudinaryConfigService.configure();
+  }
+}
