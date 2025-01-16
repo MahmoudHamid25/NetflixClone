@@ -23,7 +23,7 @@ export class EpisodesService {
 
   async findAllBySeason(seasonId: string): Promise<Content[]> {
     return this.contentRepository.find({
-      where: { parent_content_id: seasonId},
+      where: { parent_content_id: seasonId },
     });
   }
 
