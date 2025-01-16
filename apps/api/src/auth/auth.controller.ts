@@ -46,7 +46,7 @@ export class AuthController {
       'Successfully registered and returned access and refresh tokens.',
   })
   @ApiResponse({
-    status: 400,
+    status: 500,
     description: 'User with this email or username already exists.',
   })
   register(@Body() signUpDto: SignUpDto, @Res({ passthrough: true }) res: any) {

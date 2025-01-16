@@ -15,6 +15,7 @@ export class EpisodesService {
   async create(createEpisodeDto: CreateEpisodeDto): Promise<Content> {
     const episode = this.contentRepository.create({
       ...createEpisodeDto,
+      parent_content_id: createEpisodeDto.season_id,
       type: 'film',
     });
     return await this.contentRepository.save(episode);
@@ -22,7 +23,7 @@ export class EpisodesService {
 
   async findAllBySeason(seasonId: string): Promise<Content[]> {
     return this.contentRepository.find({
-      where: { id: seasonId, type: 'episode' },
+      where: { parent_content_id: seasonId},
     });
   }
 

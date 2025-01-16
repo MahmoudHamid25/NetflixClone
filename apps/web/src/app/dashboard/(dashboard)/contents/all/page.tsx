@@ -1,4 +1,3 @@
-import { ContentLayout } from '@/components/dashboard/layout/content-layout';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,19 +7,19 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import Link from 'next/link';
-import { AllContent, ContentSkeleton } from '@/components/dashboard/content/all-content';
-import { fetchAllFilms } from '@/lib/actions';
+import { AllMovies, MoviesSkeleton } from '@/components/dashboard/content/all/movies';
+import { fetchAllFilms } from '@/lib/actions/content/films.actions';
 import { Suspense } from 'react';
 
-export default async function ContentsPage() {
+export default async function MoviesPage() {
   const movies = await fetchAllFilms();
   return (
-    <ContentLayout title={'Contents'}>
+    <>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/apps/web/public">Home</Link>
+              <Link href="/">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -29,14 +28,14 @@ export default async function ContentsPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Contents</BreadcrumbPage>
+            <BreadcrumbPage>Moviess</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Suspense fallback={<ContentSkeleton/>}>
-        <AllContent movies={movies}/>
+      <Suspense fallback={<MoviesSkeleton />}>
+        <AllMovies movies={movies} />
       </Suspense>
-    </ContentLayout>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const baseContentSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -13,20 +13,40 @@ export const contentSchemas = {
   }),
   series: baseContentSchema.extend({
     type: z.literal('series'),
-    availableQualities: z.array(z.string()).optional(),
     seasons: z.array(z.string()).optional(),
+    image: z.any()
+      .refine(
+        (file) => file instanceof File || file === null,
+        'Please upload a valid image file.',
+      )
+      .optional(),
   }),
   episode: baseContentSchema.extend({
     type: z.literal('episode'),
-    parent_content_id: z.string().optional(),
-    season: z.number().optional(),
+    season_id: z.string().optional(),
     episode_number: z.number().optional(),
     video: z.instanceof(File).optional(),
+    image: z.any()
+      .refine(
+        (file) => file instanceof File || file === null,
+        'Please upload a valid image file.',
+      )
+      .optional(),
   }),
   season: baseContentSchema.extend({
     type: z.literal('season'),
-    seriesId: z.string().optional()
+    series_id: z.string().uuid(),
+    season: z.number(),
+    image: z.any()
+      .refine(
+        (file) => file instanceof File || file === null,
+        'Please upload a valid image file.',
+      )
+      .optional(),
   }),
 };
 
 export type FilmBody = z.infer<typeof contentSchemas.film>;
+export type SeriesBody = z.infer<typeof contentSchemas.series>;
+export type SeasonBody = z.infer<typeof contentSchemas.season>;
+export type EpisodeBody = z.infer<typeof contentSchemas.episode>;

@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsDate, IsArray } from 'class-validator';
+import { IsString, IsOptional,  IsArray, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateSeriesDto {
@@ -22,20 +22,22 @@ export class CreateSeriesDto {
     example: '2025-01-01',
   })
   @IsOptional()
-  @IsDate()
+  @Matches(/^\d{4}(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])$/i, {
+    message: "$property must be formatted as yyyy-mm-dd"
+  })
   release_date?: Date;
 
   @ApiProperty({
-    description: 'List of available qualities for the series',
-    required: false,
-    example: ['HD', '4K'],
+    description: 'The URL of the preview image for the content',
+    example: 'http://example.com/preview.jpg',
+    nullable: true,
   })
   @IsOptional()
-  @IsArray()
-  available_qualities?: string[];
+  @IsString()
+  preview_image?: string;
 
   @ApiProperty({
-    description: 'List of seasons associated with the series',
+    description: 'List of seasons.tsx associated with the series',
     required: false,
   })
   @IsOptional()

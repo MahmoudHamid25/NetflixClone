@@ -4,12 +4,14 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { contentSchemas } from '@/lib/schemas'
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { z } from 'zod';
 import { toast } from 'sonner';
+import { useState } from 'react';
+import { uploadSeries } from '@/lib/actions/content/series.actions';
+import { uploadEpisode } from '@/lib/actions/content/episodes.actions';
 
 export default function EpisodeForm() {
   const form = useForm<z.infer<typeof contentSchemas.episode>>({
@@ -21,19 +23,29 @@ export default function EpisodeForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof contentSchemas.episode>) {
-    console.log(values);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  async function onSubmit(values: z.infer<typeof contentSchemas.episode>) {
+    console.log(values)
+    setIsLoading(true)
     try {
+      const res = await uploadEpisode(values);
+      if (!res.success) {
+        throw new Error("Error during uploading series")
+      }
+      toast.success("Series were uploaded")
 
     } catch (e: unknown) {
+      console.log(e);
       if (e instanceof Error) {
         toast.error(`Error: ${e.message}`);
       } else {
         toast.error("An unknown error occurred");
       }
+    } finally {
+      setIsLoading(false);
     }
   }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -78,25 +90,12 @@ export default function EpisodeForm() {
         />
         <FormField
           control={form.control}
-          name="parent_content_id"
+          name="season_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Parent Content ID</FormLabel>
+              <FormLabel>Season ID</FormLabel>
               <FormControl>
                 <Input placeholder="Parent content ID" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="season"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Season</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="Season number" {...field} onChange={e => field.onChange(e.target.valueAsNumber)} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -128,7 +127,7 @@ export default function EpisodeForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isLoading}>Submit</Button>
       </form>
     </Form>
   )

@@ -1,4 +1,4 @@
-import { IsString, IsDate, IsOptional, IsArray } from 'class-validator';
+import { IsString, IsOptional, IsArray, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateFilmDto {
@@ -27,7 +27,9 @@ export class CreateFilmDto {
     example: '2010-07-16',
     required: false,
   })
-  @IsDate()
+  @Matches(/^\d{4}(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])$/i, {
+    message: "$property must be formatted as yyyy-mm-dd"
+  })
   @IsOptional()
   release_date?: Date;
 

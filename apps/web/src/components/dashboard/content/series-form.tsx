@@ -7,8 +7,11 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { z } from 'zod';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { ImageUpload } from '@/components/dashboard/content/image-upload';
+import { uploadSeries } from '@/lib/actions/content/series.actions';
 
 export default function SeriesForm() {
   const form = useForm<z.infer<typeof contentSchemas.series>>({
@@ -17,13 +20,32 @@ export default function SeriesForm() {
       type: 'series' as const,
       title: '',
       description: '',
-      availableQualities: [],
       seasons: [],
     },
   })
 
-  function onSubmit(values: z.infer<typeof contentSchemas.series>) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  async function onSubmit(values: z.infer<typeof contentSchemas.series>) {
     console.log(values)
+    setIsLoading(true)
+    try {
+      const res = await uploadSeries(values);
+      if (!res.success) {
+        throw new Error("Error during uploading series")
+      }
+      toast.success("Series were uploaded")
+
+    } catch (e: unknown) {
+      console.log(e);
+      if (e instanceof Error) {
+        toast.error(`Error: ${e.message}`);
+      } else {
+        toast.error("An unknown error occurred");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -70,17 +92,22 @@ export default function SeriesForm() {
         />
         <FormField
           control={form.control}
-          name="availableQualities"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Available Qualities</FormLabel>
-              <FormControl>
-                <Input placeholder="Comma-separated qualities" {...field} onChange={(e) => field.onChange(e.target.value.split(','))} />
-              </FormControl>
-              <FormDescription>Enter qualities separated by commas (e.g., HD,4K,1080p)</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+          name="image"
+          render={({field: {onChange, value, ...field}}) => {
+            // Get current image value (always watched updated)
+            const image = form.watch("image");
+            // console.log(image)
+
+            return (
+              <FormItem>
+                <FormLabel>Image Preview</FormLabel>
+                <FormControl>
+                  <ImageUpload value={value} onChange={onChange} isLoading={isLoading}/>
+                </FormControl>
+                <FormMessage/>
+              </FormItem>
+            );
+          }}
         />
         <FormField
           control={form.control}
@@ -96,7 +123,7 @@ export default function SeriesForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={isLoading} type="submit">Submit</Button>
       </form>
     </Form>
   )
