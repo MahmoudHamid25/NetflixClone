@@ -28,7 +28,7 @@ export class CreateFilmDto {
     required: false,
   })
   @Matches(/^\d{4}(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])$/i, {
-    message: "$property must be formatted as yyyy-mm-dd"
+    message: '$property must be formatted as yyyy-mm-dd',
   })
   @IsOptional()
   release_date?: Date;
