@@ -1,3 +1,4 @@
+"use server"
 import { fetcher } from '@/lib/fetcher';
 import { apiUrl } from '@/lib/api-url';
 import { SeriesBody } from '@/lib/schemas';

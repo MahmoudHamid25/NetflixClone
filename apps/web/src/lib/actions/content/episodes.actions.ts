@@ -1,4 +1,4 @@
-
+"use server"
 import { fetcher } from '@/lib/fetcher';
 import { apiUrl } from '@/lib/api-url';
 import { ContentResponse } from '@/lib/actions/content/types';
