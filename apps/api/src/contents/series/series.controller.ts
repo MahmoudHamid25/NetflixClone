@@ -20,7 +20,7 @@ import { UpdateSeriesDto } from './dto/update-series.dto';
 import { Content } from '../entities/content.entity';
 
 @ApiTags('Series')
-@Controller('series')
+@Controller('')
 export class SeriesController {
   constructor(private readonly seriesService: SeriesService) {}
 

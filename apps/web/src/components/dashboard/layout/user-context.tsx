@@ -1,7 +1,8 @@
 "use client"
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ApiResponse, getProfile } from '@/lib/actions';
 import { User } from '@/lib/types';
+import { ApiResponse } from '@/lib/actions/shared/types';
+import { getProfile } from '@/lib/actions/auth/auth.actions';
 
 
 

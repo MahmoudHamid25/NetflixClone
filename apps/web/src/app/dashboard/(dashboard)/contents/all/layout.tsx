@@ -5,20 +5,19 @@ import * as motion from "motion/react-client"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { ReactNode } from "react"
-import { LayoutDashboard, ShoppingCart, Package } from 'lucide-react'
+import { LayoutDashboard, Videotape } from 'lucide-react';
 import { ContentLayout } from '@/components/dashboard/layout/content-layout';
 
 const tabs = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
-  { icon: ShoppingCart, label: "Orders", path: "/dashboard/orders" },
-  { icon: Package, label: "Products", path: "/dashboard/products" },
+  { icon: LayoutDashboard, label: "Films", path: "/dashboard/contents/all" },
+  { icon: Videotape, label: "Series", path: "/dashboard/contents/all/series" },
 ]
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const router = useRouter()
   return (
-      <ContentLayout title="all ">
+      <ContentLayout title="All Contents">
         <nav className="bg-background border-b">
           <ul className="flex">
             {tabs.map((item) => (

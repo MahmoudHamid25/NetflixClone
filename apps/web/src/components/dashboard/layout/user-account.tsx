@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Image from "next/image";
 import Link from "next/link";
-import {logout} from "@/lib/actions";
+import {logout} from "@/lib/actions/auth/auth.actions";
 import {User as UserType} from "@/lib/types";
 import { useRouter } from 'next/navigation';
 

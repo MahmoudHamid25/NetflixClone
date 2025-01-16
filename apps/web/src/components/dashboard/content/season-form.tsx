@@ -4,11 +4,14 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { contentSchemas } from '@/lib/schemas'
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { z } from 'zod';
+import { ImageUpload } from '@/components/dashboard/content/image-upload';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { uploadSeason } from '@/lib/actions/content/seasons.actions';
 
 export default function SeasonForm() {
   const form = useForm<z.infer<typeof contentSchemas.season>>({
@@ -20,8 +23,28 @@ export default function SeasonForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof contentSchemas.season>) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  async function onSubmit(values: z.infer<typeof contentSchemas.season>) {
     console.log(values)
+    setIsLoading(true)
+    try {
+      const res = await uploadSeason(values);
+      if (!res.success) {
+        throw new Error("Error during uploading series")
+      }
+      toast.success("Series were uploaded")
+
+    } catch (e: unknown) {
+      console.log(e);
+      if (e instanceof Error) {
+        toast.error(`Error: ${e.message}`);
+      } else {
+        toast.error("An unknown error occurred");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -68,7 +91,39 @@ export default function SeasonForm() {
         />
         <FormField
           control={form.control}
-          name="seriesId"
+          name="image"
+          render={({field: {onChange, value, ...field}}) => {
+            // Get current image value (always watched updated)
+            const image = form.watch("image");
+            // console.log(image)
+
+            return (
+              <FormItem>
+                <FormLabel>Image Preview</FormLabel>
+                <FormControl>
+                  <ImageUpload value={value} onChange={onChange} isLoading={isLoading}/>
+                </FormControl>
+                <FormMessage/>
+              </FormItem>
+            );
+          }}
+        />
+        <FormField
+          control={form.control}
+          name="season"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Season</FormLabel>
+              <FormControl>
+                <Input type="number" placeholder="Season number" {...field} onChange={e => field.onChange(e.target.valueAsNumber)} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="series_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Series ID</FormLabel>
@@ -79,7 +134,7 @@ export default function SeasonForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={isLoading} type="submit">Submit</Button>
       </form>
     </Form>
   )

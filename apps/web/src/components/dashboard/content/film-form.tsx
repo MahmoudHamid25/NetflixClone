@@ -4,13 +4,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { contentSchemas } from '@/lib/schemas'
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { z } from 'zod';
 import { toast } from 'sonner';
-import { uploadFilm } from '@/lib/actions';
+import { uploadFilm } from '@/lib/actions/content/films.actions';
+import { useState } from 'react';
 
 export default function FilmForm() {
   const form = useForm<z.infer<typeof contentSchemas.film>>({
@@ -21,11 +21,14 @@ export default function FilmForm() {
       description: '',
     },
   })
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  function onSubmit(values: z.infer<typeof contentSchemas.film>) {
+  async function onSubmit(values: z.infer<typeof contentSchemas.film>) {
     console.log(values)
+    setIsLoading(true)
     try {
-      uploadFilm(values);
+      await uploadFilm(values);
+      toast.success("Film was uploaded")
 
     } catch (e: unknown) {
       if (e instanceof Error) {
@@ -33,6 +36,8 @@ export default function FilmForm() {
       } else {
         toast.error("An unknown error occurred");
       }
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -91,7 +96,7 @@ export default function FilmForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={isLoading} type="submit">Submit</Button>
       </form>
     </Form>
   )

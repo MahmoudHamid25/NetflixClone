@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsInt, IsUUID, IsArray } from 'class-validator';
+import { IsString, IsOptional, IsInt, IsUUID, IsArray, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateEpisodeDto {
@@ -42,6 +42,9 @@ export class CreateEpisodeDto {
     example: '2025-01-15',
   })
   @IsOptional()
+  @Matches(/^\d{4}(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])$/i, {
+    message: "$property must be formatted as yyyy-mm-dd"
+  })
   release_date?: Date;
 
   @ApiProperty({

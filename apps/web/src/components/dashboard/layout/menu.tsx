@@ -15,7 +15,7 @@ import {
   TooltipContent,
   TooltipProvider
 } from "@/components/ui/tooltip";
-import { logout } from '@/lib/actions';
+import { logout } from '@/lib/actions/auth/auth.actions';
 
 interface MenuProps {
   isOpen: boolean | undefined;

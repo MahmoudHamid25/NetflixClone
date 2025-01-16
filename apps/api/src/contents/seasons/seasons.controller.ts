@@ -24,8 +24,8 @@ import { Content } from '../entities/content.entity';
 export class SeasonsController {
   constructor(private readonly seasonsService: SeasonsService) {}
 
-  @ApiOperation({ summary: 'Get all seasons of a series' })
-  @ApiResponse({ status: 200, description: 'List of seasons', type: [Content] })
+  @ApiOperation({ summary: 'Get all seasons.tsx of a series' })
+  @ApiResponse({ status: 200, description: 'List of seasons.tsx', type: [Content] })
   @ApiParam({ name: 'seriesId', description: 'The series ID' })
   @Get('series/:seriesId')
   async findAll(@Param('seriesId') seriesId: string) {

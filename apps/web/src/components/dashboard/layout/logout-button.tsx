@@ -3,7 +3,7 @@
 import {useRouter} from 'next/navigation'
 import {LogOut} from 'lucide-react'
 import {DropdownMenuItem} from '@/components/ui/dropdown-menu'
-import {logout} from "@/lib/actions";
+import {logout} from "@/lib/actions/auth/auth.actions";
 import {startTransition} from "react";
 
 export function LogoutButton() {

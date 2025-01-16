@@ -15,6 +15,7 @@ export class SeasonsService {
   async create(createSeasonDto: CreateSeasonDto): Promise<Content> {
     const season = this.contentRepository.create({
       ...createSeasonDto,
+      parent_content_id: createSeasonDto.series_id,
       type: 'season',
     });
     return await this.contentRepository.save(season);

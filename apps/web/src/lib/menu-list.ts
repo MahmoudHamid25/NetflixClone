@@ -1,11 +1,8 @@
 import {
-  Tag,
   Users,
-  Settings,
-  Bookmark,
   SquarePen,
   LayoutGrid,
-  LucideIcon, User, Globe, DollarSign, Sliders,
+  LucideIcon, User, Globe, DollarSign,
 } from 'lucide-react';
 
 type Submenu = {
