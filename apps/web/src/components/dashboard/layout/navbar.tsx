@@ -33,7 +33,7 @@ export function Navbar({ title }: NavbarProps) {
                 <UserAccount user={user} />
               </>
             ) : (
-              <Link href="/auth/sign-in">
+              <Link href="/dashboard/auth">
                 <Button>
                   Sign In
                 </Button>

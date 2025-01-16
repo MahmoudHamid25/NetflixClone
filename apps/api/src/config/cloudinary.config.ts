@@ -11,9 +11,6 @@ export class CloudinaryConfigService {
     const apiKey = this.configService.get('CLOUDINARY_API_KEY');
     const apiSecret = this.configService.get('CLOUDINARY_API_SECRET');
 
-    // Log to verify the credentials are loaded correctly
-    console.log('Cloudinary config:', { cloudName, apiKey, apiSecret });
-
     cloudinary.v2.config({
       cloud_name: cloudName,
       api_key: apiKey,

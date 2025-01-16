@@ -15,6 +15,7 @@ export class EpisodesService {
   async create(createEpisodeDto: CreateEpisodeDto): Promise<Content> {
     const episode = this.contentRepository.create({
       ...createEpisodeDto,
+      type: 'film',
     });
     return await this.contentRepository.save(episode);
   }

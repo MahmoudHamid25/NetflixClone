@@ -47,7 +47,7 @@ export function getMenuList(pathname: string): Group[] {
           label: "Content",
           icon: SquarePen,
           submenus: [
-            { href: "/dashboard/contents", label: "All Content" },
+            { href: "/dashboard/contents/all", label: "All Content" },
             { href: "/dashboard/contents/new", label: "New Content" },
             { href: "/dashboard/contents/genres", label: "Genres" },
           ]

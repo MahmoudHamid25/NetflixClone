@@ -6,15 +6,21 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { LanguagesService } from './languages.service';
 import { CreateLanguageDto } from './dto/create-language.dto';
 import { UpdateLanguageDto } from './dto/update-language.dto';
+import { Roles } from '../roles/roles.decorator';
+import { Role } from '../roles/role.enum';
+import { RolesGuard } from '../roles/roles.guard';
 
 @Controller('languages')
 export class LanguagesController {
   constructor(private readonly languagesService: LanguagesService) {}
 
+  @UseGuards(RolesGuard)
+  @Roles(Role.JUNIOR)
   @Post()
   create(@Body() createLanguageDto: CreateLanguageDto) {
     return this.languagesService.create(createLanguageDto);

@@ -3,13 +3,9 @@ import {
   IsEmail,
   IsNotEmpty,
   IsString,
-  Matches,
   MinLength,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-
-const passwordRegEx =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,20}$/;
 
 export class CreateUserDto {
   @ApiProperty({
@@ -40,16 +36,10 @@ export class CreateUserDto {
     minLength: 8,
     example: 'P@ssw0rd123',
   })
-  @IsNotEmpty()
-  @Matches(passwordRegEx, {
-    message: `Password must contain Minimum 8 and maximum 20 characters, 
-    at least one uppercase letter, 
-    one lowercase letter, 
-    one number and 
-    one special character`,
+  @MinLength(6, {
+    message: 'Password must contain at least 6 characters',
   })
-  @MinLength(6)
-  password: string;
+  password?: string;
 
   @ApiProperty({
     description: 'Optional refresh token for the user',
