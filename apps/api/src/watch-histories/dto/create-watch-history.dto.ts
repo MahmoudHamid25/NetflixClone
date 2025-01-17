@@ -1,22 +1,35 @@
-import { IsString, IsInt, Min } from 'class-validator';
+import { IsString, IsInt, Min, IsUUID, IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateWatchHistoryDto {
-  @IsString()
-  profileId: string; // TODO: Add validation for existing profile in the future.
+  @ApiProperty({
+    description: 'The ID of the profile that is watching the content',
+  })
+  @IsUUID()
+  profileId: string;
 
-  @IsString()
-  contentId: string; // TODO: Add validation for existing content in the future.
+  @ApiProperty({ description: 'The ID of the content being watched' })
+  @IsUUID()
+  contentId: string;
 
+  @ApiProperty({
+    description: 'Timestamp indicating when the watch was stopped',
+  })
   @IsString()
   stoppedAt: string;
 
+  @ApiProperty({ description: 'Number of times the content has been watched' })
   @IsInt()
   @Min(0)
   watchCount: number;
 
+  @ApiProperty({ description: 'The subtitles language for the content' })
   @IsString()
-  subtitles: string;
+  @IsOptional()
+  subtitles?: string;
 
+  @ApiProperty({ description: 'The dubs language for the content' })
   @IsString()
-  dubs: string;
+  @IsOptional()
+  dubs?: string;
 }

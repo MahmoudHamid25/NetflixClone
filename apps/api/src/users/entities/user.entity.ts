@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '../../roles/role.enum';
+import { Profile } from '../../profiles/entities/profile.entity';
+import { Subscription } from '../../subscriptions/entities/subscription.entity';
 
 export enum AccountStatus {
   ACTIVE = 'active',
@@ -117,4 +119,10 @@ export class User {
     default: Role.API,
   })
   role: Role;
+
+  @OneToMany(() => Profile, (profile) => profile.user)
+  profiles: Profile[];
+
+  @OneToMany(() => Subscription, (subscription) => subscription.user)
+  subscriptions: Subscription[];
 }
