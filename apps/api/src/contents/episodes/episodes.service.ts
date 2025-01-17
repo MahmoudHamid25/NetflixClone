@@ -16,7 +16,7 @@ export class EpisodesService {
     const episode = this.contentRepository.create({
       ...createEpisodeDto,
       parent_content_id: createEpisodeDto.season_id,
-      type: 'film',
+      type: 'episode',
     });
     return await this.contentRepository.save(episode);
   }

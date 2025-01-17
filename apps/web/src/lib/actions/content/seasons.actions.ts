@@ -1,4 +1,4 @@
-"use server"
+// "use server"
 import { SeasonBody } from '@/lib/schemas';
 import { fetcher } from '@/lib/fetcher';
 import { apiUrl } from '@/lib/api-url';

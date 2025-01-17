@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '../../roles/role.enum';
 import { Profile } from '../../profiles/entities/profile.entity';
@@ -123,6 +123,6 @@ export class User {
   @OneToMany(() => Profile, (profile) => profile.user)
   profiles: Profile[];
 
-  @OneToMany(() => Subscription, (subscription) => subscription.user)
-  subscriptions: Subscription[];
+  @ManyToOne(() => Subscription, (subscription) => subscription.users)
+  subscription: Subscription;
 }
