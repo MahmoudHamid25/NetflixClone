@@ -3,7 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  JoinColumn,
+  JoinColumn, OneToMany,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
@@ -46,11 +46,11 @@ export class Subscription {
   })
   benefits: string;
 
-  @ManyToOne(() => User, (user) => user.subscriptions, { nullable: false })
+  @OneToMany(() => User, (user) => user.subscription, { nullable: false })
   @JoinColumn({ name: 'userId' })
   @ApiProperty({
     description: 'The user associated with the subscription',
     type: () => User,
   })
-  user: User;
+  users: User[];
 }

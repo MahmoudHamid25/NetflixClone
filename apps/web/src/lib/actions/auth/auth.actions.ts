@@ -1,4 +1,4 @@
-"use server"
+// "use server"
 import { fetcher } from '@/lib/fetcher';
 import { apiUrl } from '@/lib/api-url';
 import { clearAuthTokens, getAuthTokens, setAuthTokens } from '@/lib/auth-tokens';
