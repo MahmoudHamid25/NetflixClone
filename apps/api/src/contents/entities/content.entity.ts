@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { WatchHistory } from '../../watch-histories/entities/watch-history.entity';
 
 @Entity()
 export class Content {
@@ -111,4 +112,7 @@ export class Content {
     nullable: true,
   })
   videoUrl: string;
+
+  @OneToMany(() => WatchHistory, (watchHistory) => watchHistory.content)
+  watchHistories: WatchHistory[];
 }
