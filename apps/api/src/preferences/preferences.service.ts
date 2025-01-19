@@ -77,9 +77,10 @@ export class PreferencesService {
       updatePreferenceDto.genres = genreEntities;
     }
 
-    await this.preferenceRepository.update(id, updatePreferenceDto);
+    await this.preferenceRepository.save({id, ...updatePreferenceDto});
 
-    return this.preferenceRepository.findOne({ where: { id } });
+    return this.preferenceRepository.findOne({ where: { id },
+    relations: ['genres'] });
   }
 
   remove(id: string) {

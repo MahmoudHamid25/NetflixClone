@@ -22,8 +22,6 @@ import { RolesGuard } from '../roles/roles.guard';
 export class LanguagesController {
   constructor(private readonly languagesService: LanguagesService) {}
 
-  @UseGuards(RolesGuard)
-  @Roles(Role.JUNIOR)
   @Post()
   @ApiOperation({ summary: 'Create a new language' })
   @ApiResponse({
