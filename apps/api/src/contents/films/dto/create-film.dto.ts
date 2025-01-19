@@ -1,17 +1,8 @@
 import { IsString, IsOptional, IsArray, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { BaseDto } from '../../dto/base-content.dto';
 
-export class CreateFilmDto {
-  @ApiProperty({ description: 'Title of the film', example: 'Inception' })
-  @IsString()
-  title: string;
-
-  @ApiProperty({
-    description: 'Description of the film',
-    example: 'A mind-bending thriller',
-  })
-  @IsString()
-  description: string;
+export class CreateFilmDto extends BaseDto {
 
   @ApiProperty({
     description: 'Preview image URL',

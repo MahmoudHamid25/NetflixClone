@@ -1,20 +1,30 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EpisodesController } from './episodes.controller';
 import { EpisodesService } from './episodes.service';
+import { EpisodesController } from './episodes.controller';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Content } from '../entities/content.entity';
 
-describe('EpisodesController', () => {
-  let controller: EpisodesController;
+describe('EpisodesService', () => {
+  let service: EpisodesService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [],
       controllers: [EpisodesController],
-      providers: [EpisodesService],
+      providers: [
+        EpisodesService,
+        {
+          provide: getRepositoryToken(Content),
+          useClass: Repository, // Mock Repository
+        },
+      ],
     }).compile();
 
-    controller = module.get<EpisodesController>(EpisodesController);
+    service = module.get<EpisodesService>(EpisodesService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
 });

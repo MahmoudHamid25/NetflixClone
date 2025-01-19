@@ -1,18 +1,31 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UploadService } from './cloudinary.service';
+import { UploadController } from './upload.controller';
+import { CloudinaryService } from './cloudinary.service';
 
-describe('UploadService', () => {
-  let service: UploadService;
+describe('UploadModule', () => {
+  let controller: UploadController;
+  let service: CloudinaryService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UploadService],
+      imports: [],
+      controllers: [UploadController],
+      providers: [
+        {
+          provide: CloudinaryService,
+          useValue: {
+            uploadImage: jest.fn().mockResolvedValue('mocked-url'),
+          },
+        },
+      ],
     }).compile();
 
-    service = module.get<UploadService>(UploadService);
+    controller = module.get<UploadController>(UploadController);
+    service = module.get<CloudinaryService>(CloudinaryService);
   });
 
   it('should be defined', () => {
+    expect(controller).toBeDefined();
     expect(service).toBeDefined();
   });
 });

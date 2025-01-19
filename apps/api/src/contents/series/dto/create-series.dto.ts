@@ -1,21 +1,8 @@
 import { IsString, IsOptional, IsArray, Matches } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { BaseDto } from '../../dto/base-content.dto';
 
-export class CreateSeriesDto {
-  @ApiProperty({
-    description: 'Title of the series',
-    example: 'The Great Adventure',
-  })
-  @IsString()
-  title: string;
-
-  @ApiProperty({
-    description: 'Description of the series',
-    example: 'A thrilling adventure series.',
-  })
-  @IsString()
-  description: string;
-
+export class CreateSeriesDto extends BaseDto {
   @ApiProperty({
     description: 'Release date of the series',
     required: false,

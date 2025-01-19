@@ -49,7 +49,6 @@ export class ProfilesService {
     return this.profileRepository.save(profile);
   }
 
-
   findAll() {
     return this.profileRepository.find();
   }

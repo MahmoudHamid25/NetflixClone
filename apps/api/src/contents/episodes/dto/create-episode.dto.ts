@@ -7,22 +7,9 @@ import {
   Matches,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { BaseDto } from '../../dto/base-content.dto';
 
-export class CreateEpisodeDto {
-  @ApiProperty({
-    description: 'Title of the episode',
-    example: 'The Beginning',
-  })
-  @IsString()
-  title: string;
-
-  @ApiProperty({
-    description: 'Description of the episode',
-    example: 'The first episode of the series.',
-  })
-  @IsString()
-  description: string;
-
+export class CreateEpisodeDto extends BaseDto {
   @ApiProperty({
     description: 'ID of the season the episode belongs to',
     example: '550e8400-e29b-41d4-a716-446655440000',

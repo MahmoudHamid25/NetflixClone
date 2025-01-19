@@ -1,20 +1,30 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SubscriptionsController } from './subscriptions.controller';
 import { SubscriptionsService } from './subscriptions.service';
+import { SubscriptionsController } from './subscriptions.controller';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Subscription } from './entities/subscription.entity';
 
-describe('SubscriptionsController', () => {
-  let controller: SubscriptionsController;
+describe('SubscriptionsService', () => {
+  let service: SubscriptionsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [],
       controllers: [SubscriptionsController],
-      providers: [SubscriptionsService],
+      providers: [
+        SubscriptionsService,
+        {
+          provide: getRepositoryToken(Subscription),
+          useClass: Repository, // Mock Repository
+        },
+      ],
     }).compile();
 
-    controller = module.get<SubscriptionsController>(SubscriptionsController);
+    service = module.get<SubscriptionsService>(SubscriptionsService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
 });
