@@ -7,15 +7,9 @@ import {
   Matches,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { BaseDto } from './base-content.dto';
 
-export class CreateContentDto {
-  @ApiProperty({
-    description: 'The title of the content (e.g., film title, series name)',
-    example: 'The Matrix',
-  })
-  @IsString()
-  title: string;
-
+export class CreateContentDto extends BaseDto {
   @ApiProperty({
     description: 'The type of the content, such as film, series, episode',
     example: 'film',
@@ -23,13 +17,6 @@ export class CreateContentDto {
   @IsString()
   type: string;
 
-  @ApiProperty({
-    description: 'A detailed description of the content',
-    example:
-      'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.',
-  })
-  @IsString()
-  description: string;
 
   @ApiProperty({
     description: 'The URL of the preview image for the content',

@@ -49,7 +49,6 @@ export class WatchHistoriesService {
     return this.watchHistoryRepository.save(watchHistory);
   }
 
-
   findAll() {
     return this.watchHistoryRepository.find();
   }

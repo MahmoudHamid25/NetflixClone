@@ -7,19 +7,9 @@ import {
   IsNumber,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { BaseDto } from '../../dto/base-content.dto';
 
-export class CreateSeasonDto {
-  @ApiProperty({ description: 'Title of the season', example: 'Season 1' })
-  @IsString()
-  title: string;
-
-  @ApiProperty({
-    description: 'Description of the season',
-    example: 'The first season of the series.',
-  })
-  @IsString()
-  description: string;
-
+export class CreateSeasonDto extends BaseDto {
   @ApiProperty({
     description: 'Season number if the content is part of a series',
     example: 1,
