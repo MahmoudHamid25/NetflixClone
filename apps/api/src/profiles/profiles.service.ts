@@ -1,67 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { Profile } from './entities/profile.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../users/entities/user.entity';
-import { Language } from '../languages/entities/language.entity';
 
 @Injectable()
 export class ProfilesService {
   constructor(
-    @InjectRepository(Profile)
-    private readonly profileRepository: Repository<Profile>,
-
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-
-    @InjectRepository(Language)
-    private readonly languageRepository: Repository<Language>,
+    @InjectDataSource('api_db_connection')
+    private readonly dataSource: DataSource,
   ) {}
 
-  async create(createProfileDto: CreateProfileDto): Promise<Profile> {
+  async create(createProfileDto: CreateProfileDto) {
     const { userId, image, dateOfBirth, languageId } = createProfileDto;
 
-    // Find the User entity by userId
-    const user = await this.userRepository.findOneById(userId);
-    if (!user) {
-      throw new Error('User not found');
+    const query = `CALL sp_create_profile($1, $2, $3, $4)`;
+    const params = [userId, image, dateOfBirth, languageId];
+
+    await this.dataSource.query(query, params);
+    return { message: 'Profile created successfully' };
+  }
+
+  async findAll() {
+    const query = `SELECT * FROM profile_view`;
+    const rows = await this.dataSource.query(query);
+    return rows;
+  }
+
+  async findOne(id: string) {
+    const query = `SELECT * FROM profile_view WHERE id = $1`;
+    const rows = await this.dataSource.query(query, [id]);
+
+    if (rows.length === 0) {
+      throw new NotFoundException(`No profile found with id ${id}`);
     }
-
-    // Find the Language entity by languageId (if provided)
-    let language = null;
-    if (languageId) {
-      language = await this.languageRepository.findOneById(languageId);
-      if (!language) {
-        throw new Error('Language not found');
-      }
-    }
-
-    // Create and save the Profile entity
-    const profile = this.profileRepository.create({
-      user,
-      image,
-      dateOfBirth,
-      language,
-    });
-
-    return this.profileRepository.save(profile);
+    return rows[0];
   }
 
-  findAll() {
-    return this.profileRepository.find();
+  async update(id: string, updateProfileDto: UpdateProfileDto) {
+    const { userId, image, dateOfBirth, languageId } = updateProfileDto;
+
+    const query = `CALL sp_update_profile($1, $2, $3, $4, $5)`;
+    const params = [id, userId, image, dateOfBirth, languageId];
+
+    await this.dataSource.query(query, params);
+    return { message: 'Profile updated successfully' };
   }
 
-  findOne(id: string) {
-    return this.profileRepository.findOne({ where: { id } });
-  }
-
-  update(id: string, updateProfileDto: UpdateProfileDto) {
-    return this.profileRepository.update(id, updateProfileDto);
-  }
-
-  remove(id: string) {
-    return this.profileRepository.delete(id);
+  async remove(id: string) {
+    const query = `CALL sp_delete_profile($1)`;
+    await this.dataSource.query(query, [id]);
+    return { message: 'Profile deleted successfully' };
   }
 }

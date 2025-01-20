@@ -1,37 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
 import { UpdateSubscriptionDto } from './dto/update-subscription.dto';
-import { Subscription } from './entities/subscription.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class SubscriptionsService {
   constructor(
-    @InjectRepository(Subscription)
-    private subscriptionRepository: Repository<Subscription>,
+    @InjectDataSource('api_db_connection') // Match the name defined in app.module.ts
+    private readonly dataSource: DataSource,
   ) {}
 
-  create(createSubscriptionDto: CreateSubscriptionDto) {
-    const newSubscription = this.subscriptionRepository.create(
-      createSubscriptionDto,
-    );
-    return this.subscriptionRepository.save(newSubscription);
+  async create(createSubscriptionDto: CreateSubscriptionDto) {
+    const query = `CALL sp_create_subscription($1, $2, $3, $4)`;
+    const params = [
+      createSubscriptionDto.type,
+      createSubscriptionDto.cost,
+      createSubscriptionDto.currency,
+      createSubscriptionDto.benefits,
+    ];
+
+    await this.dataSource.query(query, params);
+    return { message: 'Subscription created successfully' };
   }
 
-  findAll() {
-    return this.subscriptionRepository.find();
+  async findAll() {
+    const query = `SELECT * FROM subscription_view`;
+    const rows = await this.dataSource.query(query);
+    return rows;
   }
 
-  findOne(id: string) {
-    return this.subscriptionRepository.findOne({ where: { id } });
+  async findOne(id: string) {
+    const query = `SELECT * FROM subscription_view WHERE id = $1`;
+    const rows = await this.dataSource.query(query, [id]);
+
+    if (rows.length === 0) {
+      throw new NotFoundException(`No subscription found with id ${id}`);
+    }
+    return rows[0];
   }
 
-  update(id: string, updateSubscriptionDto: UpdateSubscriptionDto) {
-    return this.subscriptionRepository.update(id, updateSubscriptionDto);
+  async update(id: string, updateSubscriptionDto: UpdateSubscriptionDto) {
+    const query = `CALL sp_update_subscription($1, $2, $3, $4, $5)`;
+    const params = [
+      id,
+      updateSubscriptionDto.type,
+      updateSubscriptionDto.cost,
+      updateSubscriptionDto.currency,
+      updateSubscriptionDto.benefits,
+    ];
+
+    await this.dataSource.query(query, params);
+    return { message: 'Subscription updated successfully' };
   }
 
-  remove(id: string) {
-    return this.subscriptionRepository.delete(id);
+  async remove(id: string) {
+    const query = `CALL sp_delete_subscription($1)`;
+    await this.dataSource.query(query, [id]);
+    return { message: 'Subscription deleted successfully' };
   }
 }

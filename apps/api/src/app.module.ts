@@ -13,7 +13,7 @@ import { PreferencesModule } from './preferences/preferences.module';
 import { RecommendationsModule } from './recommendations/recommendations.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ContentsModule } from './contents/contents.module';
-import typeorm from './config/typeorm';
+import typeorm, { apiDbConfig } from './config/typeorm';
 import { AccessControlModule } from './roles/access-control.module';
 import { RouterModule } from '@nestjs/core';
 import { FilmsModule } from './contents/films/films.module';
@@ -30,6 +30,7 @@ import { CloudinaryConfigService } from './config/cloudinary.config';
       load: [typeorm],
       cache: true,
     }),
+    // Default connection for senior_db_user
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -41,6 +42,11 @@ import { CloudinaryConfigService } from './config/cloudinary.config';
         }
         return typeOrmConfig;
       },
+    }),
+    // Additional connection for api_db_user
+    TypeOrmModule.forRoot({
+      ...apiDbConfig,
+      name: 'api_db_connection',
     }),
     UsersModule,
     AuthModule,

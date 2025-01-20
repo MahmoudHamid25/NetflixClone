@@ -12,14 +12,10 @@ import { User } from '../users/entities/user.entity';
 
 dotenvConfig({ path: '.env' });
 
+//senior_db_user role
 const config = {
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  // password: process.env.DB_PASSWORD,
-  // database: process.env.DB_NAME,
-  url: process.env.DB_HOST,
+  url: process.env.DB_HOST_SENIOR,
   // entities: ["dist/**/*.entity{.ts,.js}"],
   migrations: ['dist/migrations/*{.ts,.js}'],
 
@@ -30,11 +26,28 @@ const config = {
     Profile,
     WatchHistory,
     Preference,
-    Subscription,
     Content,
+    Subscription
   ],
-  synchronize: true, // Disable synchronize in production
+  synchronize: false, // Disable synchronize in production
 };
 
 export default registerAs('typeorm', () => config);
 export const connectionSource = new DataSource(config as DataSourceOptions);
+
+// api_db_use role
+export const apiDbConfig: DataSourceOptions = {
+  type: 'postgres',
+  url: process.env.DB_HOST_API,
+  entities: [
+    User,
+    Genre,
+    Language,
+    Profile,
+    WatchHistory,
+    Preference,
+    Content,
+    Subscription
+  ],
+  synchronize: false,
+};
