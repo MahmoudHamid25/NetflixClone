@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as express from 'express';
+import { XMLInterceptor } from './interceptors/xml.interceptor';  // Add this import
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -18,6 +19,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  app.useGlobalInterceptors(new XMLInterceptor());
 
   app.use(
     express.json({ limit: '100mb' }),

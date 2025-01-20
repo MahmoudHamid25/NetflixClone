@@ -11,14 +11,15 @@
     "dev:web": "cd apps/web && npm run dev"
   },
   "dependencies": {
-    "concurrently": "^9.0.1"
+    "concurrently": "^9.0.1",
+    "fast-xml-parser": "^4.5.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
     "commitizen": "^4.2.4",
     "cz-conventional-changelog": "^3.2.0",
-    "husky": "^8.0.1",
-    "@commitlint/config-conventional": "^17.0.0",
-    "@commitlint/cli": "^17.0.0"
+    "husky": "^8.0.1"
   },
   "config": {
     "commitizen": {
