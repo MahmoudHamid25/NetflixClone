@@ -1,35 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 import { CreateLanguageDto } from './dto/create-language.dto';
 import { UpdateLanguageDto } from './dto/update-language.dto';
-import { Language } from './entities/language.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class LanguagesService {
   constructor(
-    @InjectRepository(Language)
-    private languageRepository: Repository<Language>,
+    @InjectDataSource('api_db_connection')
+    private readonly dataSource: DataSource,
   ) {}
 
-  create(createLanguageDto: CreateLanguageDto) {
-    const newLanguage = this.languageRepository.create(createLanguageDto);
-    return this.languageRepository.save(newLanguage);
+  async create(createLanguageDto: CreateLanguageDto) {
+    const query = `CALL sp_create_language($1, $2)`;
+    const params = [
+      createLanguageDto.name,
+      createLanguageDto.code,
+    ];
+
+    await this.dataSource.query(query, params);
+    return { message: 'Language created successfully' };
   }
 
-  findAll() {
-    return this.languageRepository.find();
+  async findAll() {
+    const query = `SELECT * FROM language_view`;
+    const rows = await this.dataSource.query(query);
+    return rows;
   }
 
-  findOne(id: string) {
-    return this.languageRepository.findOne({ where: { id } });
+  async findOne(id: string) {
+    const query = `SELECT * FROM language_view WHERE id = $1`;
+    const rows = await this.dataSource.query(query, [id]);
+
+    if (rows.length === 0) {
+      throw new NotFoundException(`No language found with id ${id}`);
+    }
+    return rows[0];
   }
 
-  update(id: string, updateLanguageDto: UpdateLanguageDto) {
-    return this.languageRepository.update(id, updateLanguageDto);
+  async update(id: string, updateLanguageDto: UpdateLanguageDto) {
+    const query = `CALL sp_update_language($1, $2, $3)`;
+    const params = [
+      id,
+      updateLanguageDto.name,
+      updateLanguageDto.code,
+    ];
+
+    await this.dataSource.query(query, params);
+    return { message: 'Language updated successfully' };
   }
 
-  remove(id: string) {
-    return this.languageRepository.delete(id);
+  async remove(id: string) {
+    const query = `CALL sp_delete_language($1)`;
+    await this.dataSource.query(query, [id]);
+    return { message: 'Language deleted successfully' };
   }
 }
