@@ -87,3 +87,35 @@ The Swagger documentation for the API is available at:
 - **Integrity Testing**: Integrity tests are included in the API, and can be executed in apps/api with:
   ```bash
   npm run test
+
+---
+
+  ## 7. Database Authorization
+
+To comply with the assignment's requirements for user roles and database access control, we implemented four distinct database users, each with specific privileges:
+
+- **senior_db_user**: Has full access to all tables, including financial and privacy-sensitive data.
+- **medior_db_user**: Access to all tables except financial data.
+- **junior_db_user**: Restricted access to exclude financial and privacy-sensitive data (e.g., names and addresses).
+- **api_db_user**: This user does not have direct table access. Instead, all operations performed by the API use views and stored procedures.
+
+The database credentials for these users are securely stored in the `.env` file, which is included in the submitted Outlook email for review.
+
+### Access Control Implementation
+
+#### Routes Accessing Views and Stored Procedures
+
+The following routes interact with the database through **api_db_user**, ensuring limited, secure, and structured access via views and stored procedures:
+- **subscriptions**
+- **profiles**
+- **languages**
+
+This implementation aligns with the requirement that the **api_db_user** cannot execute raw SQL queries.
+
+#### Routes with Full Table Access
+
+All other routes (outside the ones listed above) are accessed using **senior_db_user**, providing the necessary privileges for direct table operations.
+
+---
+
+  
